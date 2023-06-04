@@ -12,7 +12,7 @@ class gameThree extends Phaser.Scene {
             align: 'left',
         fixedWidth: 0
         }
-        this.add.text(centerX,centerY, "game 2 scene temp", menuConfig).setOrigin(0.5,0.5);
+        this.add.text(centerX,centerY, "game 3 scene temp", menuConfig).setOrigin(0.5,0.5);
     }
     
     update() { 
