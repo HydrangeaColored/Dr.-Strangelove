@@ -4,9 +4,17 @@ class Menu extends Phaser.Scene {
     }
     preload() {
         // load
-
+        this.load.audio('bgm', './assets/eco-technology-145636.mp3');
     }
     create() {
+        //temp bgm
+        const bgm = this.sound.get('bgm');
+        if (!bgm) {
+            const newBgm = this.sound.add('bgm', { loop: true });
+            newBgm.play();
+            newBgm.volume = 0.5;
+        }
+
         let menuConfig = {
             fontFamily: 'Courier',
             fontSize: '14px',
@@ -17,13 +25,13 @@ class Menu extends Phaser.Scene {
                 top: 5,
                 bottom: 5,
             },
-        fixedWidth: 0
+            fixedWidth: 0
         }
-        this.add.text(centerX,centerY, 'Temp menu holder', menuConfig).setOrigin(0.5);
-        this.add.text(centerX,centerY+textSpacer, 'Press Left for CreditScene',menuConfig).setOrigin(0.5)
-        this.add.text(centerX,centerY+textSpacer*1.5, 'Press Right for explanationScene',menuConfig).setOrigin(0.5)
-        this.add.text(centerX,centerY+textSpacer*2, 'Press Up for GAME2',menuConfig).setOrigin(0.5)
-        this.add.text(centerX,centerY+textSpacer*2.5, 'Press Down for GAME3',menuConfig).setOrigin(0.5)
+        this.add.text(centerX, centerY, 'Temp menu holder', menuConfig).setOrigin(0.5);
+        this.add.text(centerX, centerY + textSpacer, 'Press Left for CreditScene', menuConfig).setOrigin(0.5)
+        this.add.text(centerX, centerY + textSpacer * 1.5, 'Press Right for explanationScene', menuConfig).setOrigin(0.5)
+        this.add.text(centerX, centerY + textSpacer * 2, 'Press Up for GAME2', menuConfig).setOrigin(0.5)
+        this.add.text(centerX, centerY + textSpacer * 2.5, 'Press Down for GAME3', menuConfig).setOrigin(0.5)
         // define keys
         keyLEFT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT);
         keyRIGHT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT);
@@ -32,16 +40,16 @@ class Menu extends Phaser.Scene {
     }
     update() {
         if (Phaser.Input.Keyboard.JustDown(keyLEFT)) {
-            this.scene.start('creditsScene');   
+            this.scene.start('creditsScene');
         }
         if (Phaser.Input.Keyboard.JustDown(keyRIGHT)) {
-            this.scene.start('explanationScene');   
+            this.scene.start('explanationScene');
         }
         if (Phaser.Input.Keyboard.JustDown(keyUP)) {
-            this.scene.start('gameTwoScene');   
+            this.scene.start('gameTwoScene');
         }
         if (Phaser.Input.Keyboard.JustDown(keyDOWN)) {
-            this.scene.start('gameThreeScene');   
+            this.scene.start('gameThreeScene');
         }
 
     }

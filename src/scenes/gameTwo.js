@@ -1,8 +1,9 @@
 class gameTwo extends Phaser.Scene {
     constructor() {
-        super("/////////////////////////Scene");
+        super("gameTwoScene");
     }
     preload() {
+        this.load.image('tempBackground', './assets/game2.png');
     }
     create() {
         let menuConfig = {
@@ -12,6 +13,9 @@ class gameTwo extends Phaser.Scene {
             align: 'left',
         fixedWidth: 0
         }
+        
+        
+        this.tempBackground = this.add.image(centerX, centerY, 'tempBackground').setOrigin(0.5);
         this.add.text(centerX,centerY, "game 2 scene temp", menuConfig).setOrigin(0.5,0.5);
     }
     
