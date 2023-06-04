@@ -14,7 +14,9 @@ let game = new Phaser.Game(config);
 let centerX = game.config.width/2;
 let centerY = game.config.height/2;
 // reserve keyboard vars
-let keySPACE, keyENTER, keyLEFT, keyRIGHT, keyR, keyT;
+let keySPACE, keyENTER, keyUP, keyDOWN, keyLEFT, keyRIGHT, keyR, keyT;
 
 // phaser setvelocity and setacceleration maybe direction vector and normalize?
-//hello!
+
+//define global variables
+const textSpacer = 64;
