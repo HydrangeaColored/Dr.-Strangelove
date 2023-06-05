@@ -29,7 +29,7 @@ class Menu extends Phaser.Scene {
         }
         this.add.text(centerX, centerY, 'Temp menu holder', menuConfig).setOrigin(0.5);
         this.add.text(centerX, centerY + textSpacer, 'Press Left for CreditScene', menuConfig).setOrigin(0.5)
-        this.add.text(centerX, centerY + textSpacer * 1.5, 'Press Right for explanationScene', menuConfig).setOrigin(0.5)
+        this.add.text(centerX, centerY + textSpacer * 1.5, 'Press Right for GAME1', menuConfig).setOrigin(0.5)
         this.add.text(centerX, centerY + textSpacer * 2, 'Press Up for GAME2', menuConfig).setOrigin(0.5)
         this.add.text(centerX, centerY + textSpacer * 2.5, 'Press Down for GAME3', menuConfig).setOrigin(0.5)
         // define keys
@@ -43,7 +43,7 @@ class Menu extends Phaser.Scene {
             this.scene.start('creditsScene');
         }
         if (Phaser.Input.Keyboard.JustDown(keyRIGHT)) {
-            this.scene.start('explanationScene');
+            this.scene.start('gameOneScene');
         }
         if (Phaser.Input.Keyboard.JustDown(keyUP)) {
             this.scene.start('gameTwoScene');
