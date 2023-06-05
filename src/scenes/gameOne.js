@@ -7,6 +7,7 @@ class gameOne extends Phaser.Scene {
         this.load.image('radioactive', './assets/radioactive.png');
         this.load.image('cobalt', './assets/cobalt.png');
         this.load.image('placeholder', './assets/placeholder.png');
+        this.load.audio('coin', './assets/coin.mp3');
     }
 
     create() {
@@ -61,6 +62,7 @@ class gameOne extends Phaser.Scene {
                 this.placeholder.body.velocity.x+=8;
             }
             this.physics.world.collide(this.placeholder, this.wordOne, () =>{
+                this.sound.play('coin');
                 this.wordOne.reset();
                 this.chance=Math.floor(Math.random() * 2);
                 if(this.chance==0){
@@ -80,6 +82,7 @@ class gameOne extends Phaser.Scene {
             }, null, this);
 
             this.physics.world.collide(this.placeholder, this.wordTwo, () =>{
+                this.sound.play('coin');
                 this.wordTwo.reset();
                 this.chance=Math.floor(Math.random() * 2);
                 if(this.chance==0){
