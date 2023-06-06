@@ -45,8 +45,6 @@ class gameOne extends Phaser.Scene {
 
     update() {
         if(!this.gameOver){
-            //console.log("word One is ", this.wordOne.activated);
-            console.log("word Two is ", this.wordTwo.activated);
             if(this.wordOne.activated){
                 this.wordOne.update();
                 this.wordTwo.y=0;
@@ -66,6 +64,7 @@ class gameOne extends Phaser.Scene {
                 this.wordOne.reset();
                 this.chance=Math.floor(Math.random() * 2);
                 if(this.chance==0){
+                // body set collision                            progress bar
                     this.wordOne.alpha=1;
                     this.wordTwo.alpha=0;
                     this.wordOne.activated=true;
