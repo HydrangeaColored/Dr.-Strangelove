@@ -14,7 +14,7 @@ class Menu extends Phaser.Scene {
             newBgm.play();
             newBgm.volume = 0.5;
         }
-
+        //menu text config
         let menuConfig = {
             fontFamily: 'Courier',
             fontSize: '14px',
@@ -27,6 +27,7 @@ class Menu extends Phaser.Scene {
             },
             fixedWidth: 0
         }
+        //adding text
         this.add.text(centerX, centerY, 'Temp menu holder', menuConfig).setOrigin(0.5);
         this.add.text(centerX, centerY + textSpacer, 'Press Left for CreditScene', menuConfig).setOrigin(0.5)
         this.add.text(centerX, centerY + textSpacer * 1.5, 'Press Right for GAME1', menuConfig).setOrigin(0.5)
@@ -39,6 +40,7 @@ class Menu extends Phaser.Scene {
         keyDOWN = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.DOWN);
     }
     update() {
+        //defining scenes player go to when buttons pressed
         if (Phaser.Input.Keyboard.JustDown(keyLEFT)) {
             this.scene.start('creditsScene');
         }
