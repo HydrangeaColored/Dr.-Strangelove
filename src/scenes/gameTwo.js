@@ -12,8 +12,8 @@ class gameTwo extends Phaser.Scene {
             frameWidth: 16,
             frameHeight: 16
         })
-        this.load.image('tilesetImage','tileset.png')
-        this.load.tilemapTiledJSON('tilemapJSON','area01.json')
+        this.load.image('tilesetImage','Ws.png')
+        this.load.tilemapTiledJSON('tilemapJSON','game2.json')
     }
     
     init() {
@@ -55,15 +55,15 @@ class gameTwo extends Phaser.Scene {
         //     zoom: 2
         // };
         const map = this.add.tilemap('tilemapJSON')
-        const tileset = map.addTilesetImage('tileset','tilesetImage')
+        const tileset = map.addTilesetImage('Ws','tilesetImage')
 
         //add layer
-        const bglayer = map.createLayer('background',tileset,50,50)
-        const terrainLayer = map.createLayer('terrain',tileset,50,50)
-        const trees = map.createLayer('trees',tileset,50,50,).setDepth(10)
+        const bglayer = map.createLayer('background',tileset,0,0)
+        const terrainLayer = map.createLayer('terrain',tileset,0,0)
+        const trees = map.createLayer('trees',tileset,0,0,)
     
         //add player
-        this.slime = this.physics.add.sprite(32,32,'slime',0)
+        this.slime = this.physics.add.sprite(100,100,'slime',0)
         this.anims.create({
             key: 'jiggle',
             frameRate: 8,
