@@ -1,3 +1,4 @@
+// phaser config
 let config = {
     type: Phaser.AUTO,
     width: 700,
@@ -10,7 +11,9 @@ let config = {
         }
     }
 }
+// using config to make game
 let game = new Phaser.Game(config);
+// ease of use variables
 let centerX = game.config.width/2;
 let centerY = game.config.height/2;
 // reserve keyboard vars

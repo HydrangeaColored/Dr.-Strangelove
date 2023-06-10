@@ -93,7 +93,9 @@ class gameTwo extends Phaser.Scene {
     }
     
     update() { 
+        // new direction
         this.direction = new Phaser.Math.Vector2(0)
+        // get direction xy from cursor
         if (this.cursors.left.isDown){
             this.direction.x = -1
         }else if(this.cursors.right.isDown){
@@ -105,6 +107,7 @@ class gameTwo extends Phaser.Scene {
         }else if(this.cursors.down.isDown){
             this.direction.y = 1
         }
+        // normalize direction and set velocity
         this.direction.normalize()
         this.slime.setVelocity(this.VEL * this.direction.x,this.VEL*this.direction.y)
     }
