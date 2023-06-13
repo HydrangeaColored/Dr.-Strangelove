@@ -8,6 +8,10 @@ class gameTwo extends Phaser.Scene {
         //preloading assets
         // this.load.image('tempBackground', './assets/game2.png');
         this.load.path='./assets/'
+        this.load.spritesheet('idle','idle.png',{
+            frameWidth: 16,
+            frameHeight: 21
+        })
         this.load.spritesheet('slime','slime.png',{
             frameWidth: 16,
             frameHeight: 16
@@ -16,44 +20,7 @@ class gameTwo extends Phaser.Scene {
         this.load.tilemapTiledJSON('tilemapJSON','game2.json')
     }
     
-    init() {
-        // Override the game's configuration with the specific scene configuration
-        this.game.config = {
-            ...this.game.config,
-            type: Phaser.AUTO,
-            render: {
-                pixelArt: true
-            },
-            width: 320,
-            height: 240,
-            physics: {
-                default: 'arcade',
-                arcade: {
-                    debug: true
-                }
-            },
-            zoom: 2
-        };
-    }
-    
     create() {
-        // Override the game's configuration with the specific scene configuration
-        // this.game.config = {
-        //     ...this.game.config,
-        //     type: Phaser.CANVAS,
-        //     render: {
-        //         pixelArt: true
-        //     },
-        //     width: 320,
-        //     height: 240,
-        //     physics: {
-        //         default: 'arcade',
-        //         arcade: {
-        //             debug: true
-        //         }
-        //     },
-        //     zoom: 2
-        // };
         const map = this.add.tilemap('tilemapJSON')
         const tileset = map.addTilesetImage('Ws','tilesetImage')
 
@@ -63,7 +30,20 @@ class gameTwo extends Phaser.Scene {
         const trees = map.createLayer('trees',tileset,0,0,)
     
         //add player
-        this.slime = this.physics.add.sprite(100,100,'slime',0)
+        this.slime = this.physics.add.sprite(100,100,'idle',0)
+        this.anims.create({
+            key: 'idle',
+            frameRate: 8,
+            repeat: -1,
+            frames: this.anims.generateFrameNumbers('idle',{
+                start: 0,
+                end: 2
+            }) 
+        })
+        //this.slime.play('idle')
+
+        //walk animation
+      
         this.anims.create({
             key: 'jiggle',
             frameRate: 8,
@@ -73,7 +53,20 @@ class gameTwo extends Phaser.Scene {
                 end: 1
             }) 
         })
-        this.slime.play('jiggle')
+        
+
+        // //add key
+        // this.key  = this.physics.add.sprite(200,200,'slime',0)
+        // this.anims.create({
+        //     key: 'jiggle',
+        //     frameRate: 8,
+        //     repeat: -1,
+        //     frames: this.anims.generateFrameNumbers('slime',{
+        //         start: 0,
+        //         end: 1
+        //     }) 
+        // })
+        // this.key.play('jiggle')
 
         //collide with world
         this.slime.setCollideWorldBounds(true)
@@ -82,10 +75,6 @@ class gameTwo extends Phaser.Scene {
         trees.setCollisionByProperty({collides: true})
         this.physics.add.collider(this.slime, terrainLayer)
         this.physics.add.collider(this.slime, trees)
-        //cameras
-        this.cameras.main.setBounds(0,0,map.widthInPixels,map.heightInPixels)
-        this.cameras.main.startFollow(this.slime,true,0.25,0.25)
-        this.physics.world.bounds.setTo(0,0,map.widthInPixels,map.heightInPixels)
         //INPUT
         this.cursors = this.input.keyboard.createCursorKeys()
         
@@ -95,6 +84,12 @@ class gameTwo extends Phaser.Scene {
     update() { 
         // new direction
         this.direction = new Phaser.Math.Vector2(0)
+        // // animation
+        // if(this.cursors.right.isDown||this.cursors.left.isDown||this.cursors.up.isDown||this.cursors.down.isDown){
+        //     this.slime.play('jiggle')
+        // }else{
+        //     //this.slime.play('idle')
+        // }
         // get direction xy from cursor
         if (this.cursors.left.isDown){
             this.direction.x = -1
@@ -109,9 +104,15 @@ class gameTwo extends Phaser.Scene {
         }
         // normalize direction and set velocity
         this.direction.normalize()
+
+        //
+        if (this.direction.x !== 0 || this.direction.y !== 0) {
+            this.slime.anims.play('jiggle', true);
+        } else {
+            this.slime.anims.play('idle', true);
+        }
+
         this.slime.setVelocity(this.VEL * this.direction.x,this.VEL*this.direction.y)
     }
     
 }
-// Register the GameTwo scene with the game
-//this.scene.add("gameTwoScene", gameTwo);
