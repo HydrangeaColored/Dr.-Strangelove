@@ -3,7 +3,7 @@ class gameTwo extends Phaser.Scene {
         super("gameTwoScene");
 
         this.VEL = 100; // Velocity constant for player movement
-        this.initialTime = 60; // Initial time in seconds
+        this.initialTime = 10; // Initial time in seconds
         this.remainingTime = this.initialTime; // Remaining time in seconds
         this.timer = null; // Reference to the timer event
         this.timerText = null; // Reference to the timer text object
@@ -27,11 +27,19 @@ class gameTwo extends Phaser.Scene {
         });
         this.load.image('tilesetImage', 'Ws.png');
         this.load.tilemapTiledJSON('tilemapJSON', 'game2.json');
+        this.load.audio('bgm', 'gun_battle.mp3');
     }
 
     create() {
         const map = this.add.tilemap('tilemapJSON');
         const tileset = map.addTilesetImage('Ws', 'tilesetImage');
+
+        // Add background music
+        if (!this.bgm || !this.bgm.isPlaying) {
+            this.bgm = this.sound.add('bgm', { loop: true });
+            this.bgm.play();
+            this.bgm.volume = 0.8;
+        }
 
         // Add layers
         const bglayer = map.createLayer('background', tileset, 0, 0);
@@ -50,7 +58,7 @@ class gameTwo extends Phaser.Scene {
         });
 
         //Add tutorial
-        this.tutorialText = this.add.text(170,100,'Arrow Keys to control\n Find four keys to win!',{
+        this.tutorialText = this.add.text(170, 100, 'Arrow Keys to control\n Find four keys to win!', {
             font: '12px Arial',
             fill: '#000000'
         })
@@ -196,8 +204,7 @@ class gameTwo extends Phaser.Scene {
             this.key4.body.reset(this.slime.x - 30, this.slime.y + 30); // Adjust the offset as needed
         }
 
-        if(this.key1.isPickedUp&&this.key2.isPickedUp&&this.key3.isPickedUp&&this.key4.isPickedUp)
-        {
+        if (this.key1.isPickedUp && this.key2.isPickedUp && this.key3.isPickedUp && this.key4.isPickedUp) {
             this.timer.remove(); // Stop the timer
             this.gameOver()
         }
@@ -216,57 +223,59 @@ class gameTwo extends Phaser.Scene {
     startTimer() {
         // Create the timer event to decrement remainingTime every second
         this.timer = this.time.addEvent({
-          delay: 1000, // 1 second
-          callback: this.updateTimer,
-          callbackScope: this,
-          loop: true,
+            delay: 1000, // 1 second
+            callback: this.updateTimer,
+            callbackScope: this,
+            loop: true,
         });
-      }
-    
-      updateTimer() {
+    }
+
+    updateTimer() {
         this.remainingTime--;
         this.timerText.setText(`Time: ${this.remainingTime}`);
-    
+
         if (this.remainingTime <= 0) {
-          this.timer.remove(); // Stop the timer
-          this.gameOver();
+            this.timer.remove(); // Stop the timer
+            this.gameOver();
         }
-      }
-    
-      restartGame() {
+    }
+
+    restartGame() {
         this.scene.restart(); // Restart the scene
         this.remainingTime = this.initialTime; // Reset the remaining time
         this.isGameOver = false; // Reset the game over state
-      }
-    
-      returnToMainMenu() {
+    }
+
+    returnToMainMenu() {
         this.scene.restart(); // Restart the scene
         this.remainingTime = this.initialTime; // Reset the remaining time
         this.isGameOver = false; // Reset the game over state
+        if (this.bgm) {
+            this.bgm.stop(); // Stop the background music if it exists
+        }
         this.scene.start("menuScene"); // Switch to the main menu scene
-      }
-    
-      gameOver() {
-        if (this.key1.isPickedUp&&this.key2.isPickedUp&&this.key3.isPickedUp&&this.key4.isPickedUp)
-        {
-            this.congratsPrompt = this.add.text(this.slime.x-75,
+    }
+
+    gameOver() {
+        if (this.key1.isPickedUp && this.key2.isPickedUp && this.key3.isPickedUp && this.key4.isPickedUp) {
+            this.congratsPrompt = this.add.text(this.slime.x - 75,
                 this.slime.y - 50,
                 'YOU WIN!',
                 { font: '48px Arial', fill: '#00ff00', align: 'center' }
-              )
+            )
         }
         // Set the game over state to true
         this.isGameOver = true;
-    
+
         // Display the Game Over screen and prompt
         this.restartPrompt = this.add.text(
-          this.slime.x-75,
-          this.slime.y + 50,
-          'Press SPACE to retry\nPress UP to return to menu',
-          { font: '24px Arial', fill: '#00ff00', align: 'center' }
+            this.slime.x - 75,
+            this.slime.y + 50,
+            'Press SPACE to retry\nPress UP to return to menu',
+            { font: '24px Arial', fill: '#00ff00', align: 'center' }
         );
-    
+
         this.input.keyboard.once('keydown-SPACE', this.restartGame, this);
         this.input.keyboard.once('keydown-UP', this.returnToMainMenu, this);
-      }
+    }
 }

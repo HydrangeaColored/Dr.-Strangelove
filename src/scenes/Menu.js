@@ -30,6 +30,12 @@ class Menu extends Phaser.Scene {
         keyRIGHT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT);
         keyUP = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.UP);
         keyDOWN = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.DOWN);
+
+        // Stop the background music if it is playing
+        const gameTwoScene = this.scene.get("gameTwoScene");
+        if (gameTwoScene && gameTwoScene.bgm && gameTwoScene.bgm.isPlaying) {
+            gameTwoScene.bgm.stop();
+        }
     }
     update() {
         //defining scenes player go to when buttons pressed
