@@ -4,16 +4,8 @@ class Menu extends Phaser.Scene {
     }
     preload() {
         // load
-        this.load.audio('bgm', './assets/eco-technology-145636.mp3');
     }
     create() {
-        //temp bgm
-        const bgm = this.sound.get('bgm');
-        if (!bgm) {
-            const newBgm = this.sound.add('bgm', { loop: true });
-            newBgm.play();
-            newBgm.volume = 0.5;
-        }
         //menu text config
         let menuConfig = {
             fontFamily: 'Courier',
