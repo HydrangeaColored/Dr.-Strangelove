@@ -3,7 +3,7 @@ class gameTwo extends Phaser.Scene {
         super("gameTwoScene");
 
         this.VEL = 100; // Velocity constant for player movement
-        this.initialTime = 10; // Initial time in seconds
+        this.initialTime = 60; // Initial time in seconds
         this.remainingTime = this.initialTime; // Remaining time in seconds
         this.timer = null; // Reference to the timer event
         this.timerText = null; // Reference to the timer text object
