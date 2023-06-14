@@ -49,6 +49,8 @@ class Menu extends Phaser.Scene {
             this.scene.start('gameOneScene');
         }
         if (Phaser.Input.Keyboard.JustDown(keyUP)) {
+            const gameTwoScene = this.scene.get("gameTwoScene");//restarting gametwo from menu
+            gameTwoScene.restartGame();
             this.scene.start('gameTwoScene');
         }
         if (Phaser.Input.Keyboard.JustDown(keyDOWN)) {

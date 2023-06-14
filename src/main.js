@@ -1,3 +1,7 @@
+/*  Made by: Steven Ren, Ziyuan Wang
+*   Features: Physics systems, cameras,text objects,animation manager and timer included
+*/
+
 // phaser config
 let config = {
     type: Phaser.AUTO,
