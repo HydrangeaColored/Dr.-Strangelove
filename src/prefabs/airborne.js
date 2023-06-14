@@ -5,7 +5,6 @@ class airborne extends Phaser.Physics.Arcade.Sprite {
       this.parentScene = scene;
       this.parentScene.physics.add.existing(this);
       this.parentScene.add.existing(this);
-      console.log("speed is: ", speed);
       this.parentScene.add.existing(this);
       // check if going up or down (game 1 needs go down, game 3 needs go up)
       this.goingUp=goingUp;
@@ -27,16 +26,17 @@ class airborne extends Phaser.Physics.Arcade.Sprite {
         // reset y and random velocity to a certain degree
         if(this.goingUp==false){
             this.y=0;
-            this.setVelocityY(Math.floor(Math.random() * 200)+300);
+            this.c(Math.floor(Math.random() * 200)+500);
           }else{
             this.y=game.config.height;
-            this.setVelocityY((Math.floor(Math.random() * 200)+300)*-1);
+            this.setVelocityY((Math.floor(Math.random() * 200)+500)*-1);
           }
         // randomizes x
         this.x=Math.floor(Math.random() * 700);
     }
     // set speed command
-    setSpeed(speed){
-        this.moveSpeed=speed;
+    zeroVelo(){
+      this.setVelocityX(0);
+      this.setVelocityY(0);
     }
 }

@@ -10,12 +10,12 @@ class gameOne extends Phaser.Scene {
         this.load.image('player', './assets/dummy.png');
         this.load.image('warroom', './assets/warroom.jpg');
         // preloads sfx on collision with words
-        this.load.audio('coin', './assets/coin.mp3');
         this.load.audio('BGM', './assets/warroombgm.mp3');
+        this.load.audio('ok', './assets/ok.mp3');
     }
 
     create() {
-        this.warroom = this.add.sprite(centerX,centerY, 'warroom')
+        this.warroom = this.add.sprite(centerX,centerY, 'warroom');
         // temporary score tracker as text
         let menuConfig = {
             fontFamily: 'Comic Sans MS',
@@ -33,7 +33,7 @@ class gameOne extends Phaser.Scene {
         this.wordOne = new airborne(this, Math.floor(Math.random() * 700), 0, 'radioactive', 0, Math.floor(Math.random() * 200)+300, false).setOrigin(0, 0);
         this.wordTwo = new airborne(this, Math.floor(Math.random() * 700), 0, 'radioactive', 0, Math.floor(Math.random() * 200)+300, false).setOrigin(0, 0);
         // initializes the player and sets world bound
-        this.player = this.physics.add.sprite(game.config.width/2,game.config.height-50, 'player').setOrigin(0.5);
+        this.player = this.physics.add.sprite(game.config.width/2,game.config.height-25, 'player').setOrigin(0.5);
         this.player.setCollideWorldBounds(true);
         // initializes game over flag
         this.gameOver=false;
@@ -82,29 +82,14 @@ class gameOne extends Phaser.Scene {
     }
 
     update() {
-        // update game when game is not over
-        if(!this.gameOver){
-            // left and right control for player
-            if(keyLEFT.isDown){
-                this.player.body.velocity.x-=8;
-            }
-            if(keyRIGHT.isDown){
-                this.player.body.velocity.x+=8;
-            }
-            // check collision between words and player or bounds
-            this.checkWordCollision(this.wordOne);
-            this.checkWordCollision(this.wordTwo);
-        }else{
-            // gameover commands
-            this.checkCommands();
-        }
-        
+        // check for player commands
+        this.checkCommands();
     }
 
     checkWordCollision(currWord){
         // check collision between player
         this.physics.world.collide(this.player, currWord, () =>{
-            this.sound.play('coin');
+            this.sound.play('ok');
             // reset word
             this.resetThisWord(currWord);
             // update collision counter
@@ -135,14 +120,29 @@ class gameOne extends Phaser.Scene {
         }
     }
     checkCommands(){
-        if (this.gameOver && Phaser.Input.Keyboard.JustDown(keyR)) {
-            this.bgmusic.stop();
-            this.scene.restart();
+        // update game when game is not over
+        if(!this.gameOver){
+            // left and right control for player
+            if(keyLEFT.isDown){
+                this.player.body.velocity.x-=8;
+            }
+            if(keyRIGHT.isDown){
+                this.player.body.velocity.x+=8;
+            }
+            // check collision between words and player or bounds
+            this.checkWordCollision(this.wordOne);
+            this.checkWordCollision(this.wordTwo);
+        }else{
+            // gameover commands
+            if (this.gameOver && Phaser.Input.Keyboard.JustDown(keyR)) {
+                this.bgmusic.stop();
+                this.scene.restart();
+            }
+            if (this.gameOver && Phaser.Input.Keyboard.JustDown(keyT)) {
+                this.bgmusic.stop();
+                this.scene.start("gameTwoScene");
+            }
         }
-        if (this.gameOver && Phaser.Input.Keyboard.JustDown(keyT)) {
-            this.bgmusic.stop();
-            this.scene.start("gameTwoScene");
-          }
     }
     updateTime (){
         if(this.currTime>0&&(!this.gameOver)){
