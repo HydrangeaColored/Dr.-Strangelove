@@ -7,6 +7,7 @@ class gameOne extends Phaser.Scene {
         // preloads words used
         this.load.image('radioactive', './assets/radioactive.png');
         this.load.image('cobalt', './assets/cobalt.png');
+        this.load.image('halflife', './assets/halflife.png');
         this.load.image('player', './assets/dummy.png');
         this.load.image('warroom', './assets/warroom.jpg');
         // preloads sfx on collision with words
@@ -27,11 +28,15 @@ class gameOne extends Phaser.Scene {
         // score tracker
         this.successCount=0;
         this.currScore=this.add.text(centerX,centerY, this.successCount, menuConfig).setOrigin(0.5,0.5);
+        menuConfig.fontSize ='28px'
+        this.expl=this.add.text(centerX,centerY+50, "Left and Right arrows to move", menuConfig).setOrigin(0.5,0.5);
+        this.explTwo=this.add.text(centerX,centerY+100, "Try to 'understand' (catch) as many words as possible", menuConfig).setOrigin(0.5,0.5);
         /*
         initializes the words
         */
         this.wordOne = new airborne(this, Math.floor(Math.random() * 700), 0, 'radioactive', 0, Math.floor(Math.random() * 200)+300, false).setOrigin(0, 0);
-        this.wordTwo = new airborne(this, Math.floor(Math.random() * 700), 0, 'radioactive', 0, Math.floor(Math.random() * 200)+300, false).setOrigin(0, 0);
+        this.wordTwo = new airborne(this, Math.floor(Math.random() * 700), 0, 'cobalt', 0, Math.floor(Math.random() * 200)+300, false).setOrigin(0, 0);
+        this.wordTwo = new airborne(this, Math.floor(Math.random() * 700), 0, 'halflife', 0, Math.floor(Math.random() * 200)+300, false).setOrigin(0, 0);
         // initializes the player and sets world bound
         this.player = this.physics.add.sprite(game.config.width/2,game.config.height-25, 'player').setOrigin(0.5);
         this.player.setCollideWorldBounds(true);
@@ -95,8 +100,6 @@ class gameOne extends Phaser.Scene {
             // update collision counter
             this.successCount++;
             this.currScore.text = this.successCount;
-            console.log("x after reset is: ", currWord.x);
-            console.log("got this many: ", this.successCount);
         }, null, this);
         // if out of bounds, then reset
         if(currWord.y>game.config.height){
@@ -107,7 +110,7 @@ class gameOne extends Phaser.Scene {
         // resets word
         currWord.reset();
         // chance for which word it turns into
-        this.chance=Math.floor(Math.random() * 2);
+        this.chance=Math.floor(Math.random() * 3);
         if(this.chance==0){
             // body set collision                            progress bar
             // sets new sprite and adjusts hitbox
@@ -117,6 +120,10 @@ class gameOne extends Phaser.Scene {
             // sets new sprite and adjusts hitbox
             currWord.setTexture('radioactive');
             currWord.body.setSize(172, 22, false);
+        }else if(this.chance==2){
+            // sets new sprite and adjusts hitbox
+            currWord.setTexture('halflife');
+            currWord.body.setSize(120, 23, false);
         }
     }
     checkCommands(){

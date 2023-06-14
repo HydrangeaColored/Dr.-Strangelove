@@ -246,14 +246,11 @@ class gameTwo extends Phaser.Scene {
         this.isGameOver = false; // Reset the game over state
     }
 
-    returnToMainMenu() {
-        this.scene.restart(); // Restart the scene
-        this.remainingTime = this.initialTime; // Reset the remaining time
-        this.isGameOver = false; // Reset the game over state
+    goToGameThree() {
         if (this.bgm) {
             this.bgm.stop(); // Stop the background music if it exists
         }
-        this.scene.start("menuScene"); // Switch to the main menu scene
+        this.scene.start("gameThreeScene"); // Switch to the main menu scene
     }
 
     gameOver() {
@@ -271,11 +268,11 @@ class gameTwo extends Phaser.Scene {
         this.restartPrompt = this.add.text(
             this.slime.x - 75,
             this.slime.y + 50,
-            'Press SPACE to retry\nPress UP to return to menu',
+            'Press SPACE to retry\nPress UP to go to game 3',
             { font: '24px Arial', fill: '#00ff00', align: 'center' }
         );
 
         this.input.keyboard.once('keydown-SPACE', this.restartGame, this);
-        this.input.keyboard.once('keydown-UP', this.returnToMainMenu, this);
+        this.input.keyboard.once('keydown-UP', this.goToGameThree, this);
     }
 }

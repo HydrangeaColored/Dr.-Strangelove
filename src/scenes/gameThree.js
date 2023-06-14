@@ -3,12 +3,12 @@ class gameThree extends Phaser.Scene {
         super("gameThreeScene");
     }
     preload() {
-        this.load.image('player', './assets/nukeride.png');
+        this.load.image('player3', './assets/nukeride.png');
         this.load.image('plane', './assets/plane.png');
         this.load.image('bird', './assets/bird.png');
         this.load.image('sky', './assets/sky.png');
         this.load.audio('boom', './assets/boom.wav');
-        this.load.audio('BGM', './assets/skybgm.mp3');
+        this.load.audio('skyBGM', './assets/skybgm.mp3');
         this.load.spritesheet('explosion', './assets/explosion.png', {frameWidth: 64, frameHeight: 32, startFrame: 0, endFrame: 9});
     }
     create() {
@@ -31,12 +31,12 @@ class gameThree extends Phaser.Scene {
         this.obstOne = new airborne(this, Math.floor(Math.random() * 700), 700, 'bird', 0, Math.floor(Math.random() * 200)+500, true).setOrigin(0, 0);
         this.obstTwo = new airborne(this, Math.floor(Math.random() * 700), 700, 'plane', 0, Math.floor(Math.random() * 200)+500, true).setOrigin(0, 0);
         // initialize player
-        this.player = this.physics.add.sprite(game.config.width/2,25, 'player').setOrigin(0.5);
+        this.player = this.physics.add.sprite(game.config.width/2,25, 'player3').setOrigin(0.5);
         this.gameOver=false;
         // timer
         this.timedEvent = this.time.addEvent({ delay: 1000, callback: this.updateTime, callbackScope: this, loop: true });
         // time in secs
-        this.currTime = 5;
+        this.currTime = 30;
         let timeConfig = {
             fontFamily: 'Courier',
             fontSize: '28px',
@@ -50,7 +50,7 @@ class gameThree extends Phaser.Scene {
         }
         this.timeLeft = this.add.text(centerX, 650, this.currTime, timeConfig);
         // start bgm
-        this.bgmusic = this.sound.add("BGM", { loop: true });
+        this.bgmusic = this.sound.add("skyBGM", { loop: true });
         this.bgmusic.play();
         // explosion animation creation
         this.anims.create({
@@ -60,6 +60,18 @@ class gameThree extends Phaser.Scene {
         });
         // explode on win tracker
         this.hasExploded=false;
+        // explanation on how to play
+        let explConfig = {
+            fontFamily: 'Courier',
+            fontSize: '14px',
+            color: '#ffffff',
+            align: 'middle',
+            padding: {
+                top: 5,
+                bottom: 5,
+            }
+        }
+        this.expl=this.add.text(centerX,centerY, "Use left and right to avoid obstacles as you land the nuke", explConfig).setOrigin(0.5,0.5);
     }
     
     update() {
@@ -181,6 +193,10 @@ class gameThree extends Phaser.Scene {
             this.add.text(game.config.width/2, game.config.height/2, 'GAME OVER', overConfig).setOrigin(0.5);
             this.add.text(game.config.width/2, game.config.height/2+64, "The nuke landed!! (causing the death of everybody) :)", overConfig).setOrigin(0.5);
             this.add.text(game.config.width/2, game.config.height/2 + 64+64, 'Press (R) to Restart or (T) for Menu', overConfig).setOrigin(0.5);
+        }
+        // remove tutorial text after 5 seconds
+        if(this.currTime==25){
+            this.expl.text="";
         }
     }
 }
